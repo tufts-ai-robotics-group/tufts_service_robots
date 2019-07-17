@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 from geometry_msgs.msg import Point
+from std_msgs.msg import String 
 
 import rospy
 import rospkg
@@ -11,6 +12,10 @@ import os
 from poi_name_locator.srv import PoiNameLocator
 from poi_name_locator.srv import PoiNameLocatorRequest
 from poi_name_locator.srv import PoiNameLocatorResponse
+from poi_name_locator.srv import PoiNames
+from poi_name_locator.srv import PoiNamesRequest
+from poi_name_locator.srv import PoiNamesResponse
+
 
 class PoiNameLocatorServer:
     def __init__(self):
@@ -64,11 +69,33 @@ class PoiNameLocatorServer:
         retval.y = self.poi[poi_name]['y']
         retval.z = 0
         return PoiNameLocatorResponse(retval)
+        
+    def handle_poi_get_names(self, request):  # type: (PoiNameLocatorRequest) -> PoiNameLocatorResponse
+        #poi_name = request.poi_name  # type: str
+       
+		retlist = []
+            
+		for key in self.poi.keys(): 
+			nextString = String()
+			nextString.data = key
+			retlist.append(nextString)
+			
+
+			
+
+     
+		return PoiNamesResponse(retlist)        
+        
+        
 
     def spin(self):
         rospy.init_node('poi_name_locator_server')
         self.load()
-        s = rospy.Service('poi_name_locator', PoiNameLocator, self.handle_poi_name_locator_request)
+        
+        
+        s1 = rospy.Service('poi_name_locator', PoiNameLocator, self.handle_poi_name_locator_request)
+        s2 = rospy.Service('poi_names',PoiNames, self.handle_poi_get_names)
+        
         rospy.loginfo("Ready to lookup POI locations by name.")
         rospy.spin()
 
