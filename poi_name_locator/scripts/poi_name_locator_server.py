@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
+from collections import OrderedDict
 
 from geometry_msgs.msg import Point
 from std_msgs.msg import String 
@@ -74,11 +75,12 @@ class PoiNameLocatorServer:
         #poi_name = request.poi_name  # type: str
        
 		retlist = []
-            
-		for key in self.poi.keys(): 
+            	olist = OrderedDict(sorted(self.poi.items(), key=lambda t: t[0]))
+		for key in olist.keys(): 
 			nextString = String()
 			nextString.data = key
 			retlist.append(nextString)
+			
 			
 
 			
