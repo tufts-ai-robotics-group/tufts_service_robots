@@ -41,7 +41,7 @@ class Patrol:
 
         self.move_base_action_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.move_base_action_client.wait_for_server()
-	#self.retlist = []
+
 
     def lookup(self, poi_name):  # type: (str) -> Point
         request = PoiNameLocatorRequest(poi_name)
@@ -56,19 +56,11 @@ class Patrol:
 
     def getList(self):
 	
-	#trying to get response from server commented out for now, 
-	#as it keeps returning an empty list 
-
-	#response = PoiNamesResponse()
-	#if not response.locations:
-		#rospy.loginfo('list is empty')	
-	#return response.locations 
-
-
-	#HARD CODING:
+	
 
 	locList = ['Door_202_Graduate_Offices', 'Door_204_Kitchenette','Door_205_Scheutz_Ruiter', 'Door_206_Akitaya', 'Door_207_Vu', 'Door_208_Koomson', 'Door_209_Conference_Right', 'Door_210_Hughes', 'Door_211_Foster', 'Door_212_Collab_Right', 'Door_213_Sinapov', 'Door_214_Mendelsohn', 'Door_215_Jacob', 'Door_212_Collab_Left', 'Door_Mens_Bathroom','Door_217_Janitor_Closet',  'Door_Womens_Bathroom', 'Door_220_Afsar', 'Door_221_Edwards', 'Door_222_Ramsey', 'Door_224_Sheldon', 'Door_209_Conference_Left', 'Door_226_Graduate_Offices', 'Door_228_SinapovLab_ProfKorman', 'Door_235B_Offices', 'Door_250_Graduate_Offices', 'Door_233_Closet', 'Door_235A_Hempstead', 'Door_219_Wellness_Room', 'Door_237_Guyer', 'Door_239_Souvaine', 'Door_241_Landau', 'Door_245_Main_Office', 'Door_245_Sitting_Area']
 
+	#check the length of the list
 	length = len(locList)
 	rospy.loginfo('print length %s'%(length))
 
@@ -79,11 +71,10 @@ class Patrol:
 	retlist = self.getList()
 	rospy.sleep(0.1) 
 	temp = retlist[index]
-	rospy.loginfo('reached here')
 	return temp
 	
 
-    def patrol(self): #moves from door to door in ascending order of door number  
+    def patrol(self): #moves from door to door in custom order of doors  
 
 	for x in range(34): 
 
@@ -98,13 +89,10 @@ class Patrol:
 
 		pose = target_pose.pose  # type: Pose
 
-		# pose.orientation  by default is just a bunch of 0's, which is not valid because the length of the
-		# vector is 0. Length of vector must be 1, and for map navigation, z-axis must be vertical, so by setting
-		# w = 1, it's the same as yaw = 0
 		pose.orientation.w = 1
 
-			########### Drive to poi1
-			#rospy.loginfo('drive to {}'.format(response[x]))
+		########### Drive to poi
+
 
 		pose.position = point1
 		header.stamp = rospy.Time.now()
