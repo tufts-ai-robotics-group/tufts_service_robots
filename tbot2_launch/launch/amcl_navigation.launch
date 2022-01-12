@@ -2,7 +2,7 @@
   <arg name="3d_sensor" default="$(env TURTLEBOT_3D_SENSOR)"/>
 
   <!-- Map server -->
-  <arg name="map_file" default="$(find tufts_joyce)/maps/4th_floor/lab_474.yaml"/>
+  <arg name="map_file" default="$(find tufts_joyce)/maps/4th_floor/4th_floor_combined.yaml"/>
 
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
