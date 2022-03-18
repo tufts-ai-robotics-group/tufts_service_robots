@@ -2,7 +2,7 @@
   <arg name="3d_sensor" default="$(env TURTLEBOT_3D_SENSOR)"/>
 
   <!-- Map server -->
-  <arg name="map_file" default="$(find tufts_joyce)/maps/4th_floor/4th_floor_combined.yaml"/>
+  <arg name="map_file" default="$(find tufts_joyce)/maps/4th_floor/empty_lab_fixed.yaml"/>
 
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
@@ -25,8 +25,7 @@
  
   
   <!-- rviz for visualization -->
-  <include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch">
-  </include>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rviz_config)/Default.rviz"/>
 
 </launch>
 
